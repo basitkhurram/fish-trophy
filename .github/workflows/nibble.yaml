@@ -10,5 +10,6 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./
+      - uses: basitkhurram/fish-trophy@v0.0.1
+
+            
