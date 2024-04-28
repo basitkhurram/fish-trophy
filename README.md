@@ -1,5 +1,26 @@
 # fish-trophy
-Let there be fish for all
+Let there be fish for all!
+
+## Usage
+Uses the default `GITHUB_TOKEN` to leave a comment on a pull request,
+however, still need to have write permission to create the comment.
+Here is an example of a GitHub Action workflow that uses this action:
+
+```yaml
+name: First nibble
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: basitkhurram/fish-trophy@v0.0.1
+```
 
 ## Origins
 > It’s always nice to have a little reward for milestones.
