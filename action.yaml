@@ -1,0 +1,30 @@
+name: Fish Trophy
+description: Reward fish trophy for palindromic PR numbers
+author: Beluga King
+branding:
+  icon: 'anchor'
+  color: 'blue'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check whether PR number is a palindrome
+      id: is_palindrome
+      shell: bash
+      run: |
+        PR_NUMBER=${{ github.event.pull_request.number }}
+        is_palindrome=$(python3 -c "print(str($PR_NUMBER) == str($PR_NUMBER)[::-1])")
+        echo "is_palindrome=$is_palindrome" >> $GITHUB_ENV
+
+    - name: Reward fish trophy when PR number is a palindrome
+      if: ${{ env.is_palindrome }} == 'True'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const response = await github.rest.issues.createComment({
+            issue_number: ${{ github.event.pull_request.number }},
+            owner: '${{ github.repository_owner }}',
+            repo: '${{ github.event.repository.name }}',
+            body: '🐟 @' + '${{ github.event.pull_request.user.login }}' + ' got a fish trophy!'
+          })
+          console.log(response.data)
